@@ -1,0 +1,8 @@
+version: 2
+sources:
+- name: ore
+  schema: cbt_test_analytics__ore
+  description: Raw ingested data (Ore zone)
+  tables:
+  - name: geo_master_new
+    description: Raw table geo_master_new

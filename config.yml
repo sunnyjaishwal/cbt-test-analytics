@@ -1,0 +1,5 @@
+tenant: cbt-test
+namespace: cbt_test_analytics
+description: ''
+sources: []
+publish: []

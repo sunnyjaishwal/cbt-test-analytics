@@ -1,0 +1,41 @@
+name: 'cbt_test_analytics'
+version: '1.0.0'
+config-version: 2
+
+# This profile lives in profiles.yml at the project root (see DBT_PROFILES_DIR).
+profile: 'cbt_test_analytics'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Medallion architecture with domain naming:
+#   ore   = bronze  (raw ingestion, 1:1 with source, minimal typing)
+#   alloy = silver  (cleaned, conformed, deduplicated, joined)
+#   ingot = gold    (business-facing marts / aggregates)
+models:
+  cbt_test_analytics:
+    ore:
+      +materialized: view
+      +schema: ore
+      +tags: ["ore", "bronze"]
+    alloy:
+      +materialized: view
+      +schema: alloy
+      +tags: ["alloy", "silver"]
+    ingot:
+      +materialized: table
+      +schema: ingot
+      +tags: ["ingot", "gold"]
+
+# Build all layer schemas into one physical database, prefixed per layer.
+# Override the generate_schema_name macro (macros/generate_schema_name.sql)
+# so schemas are named exactly `ore`, `alloy`, `ingot` (no target prefix).

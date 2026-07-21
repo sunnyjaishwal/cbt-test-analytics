@@ -1,0 +1,21 @@
+smelter_trino:
+  target: dev
+  outputs:
+    dev:
+      type: trino
+      method: none
+      host: '{{ env_var(''TRINO_HOST'', ''localhost'') }}'
+      port: '{{ env_var(''TRINO_PORT'', ''6192'') | int }}'
+      user: smelter
+      database: '{{ env_var(''DBT_CATALOG'', ''iceberg_cbt_test_402d2f16'') }}'
+      schema: alloy
+      threads: 4
+    prod:
+      type: trino
+      method: none
+      host: '{{ env_var(''TRINO_HOST'', ''trino'') }}'
+      port: '{{ env_var(''TRINO_PORT'', ''8080'') | int }}'
+      user: smelter
+      database: '{{ env_var(''DBT_CATALOG'', ''iceberg_cbt_test_402d2f16'') }}'
+      schema: alloy
+      threads: 8
