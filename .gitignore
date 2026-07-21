@@ -1,0 +1,16 @@
+# --- secrets / local environment (NEVER commit) ---
+.env
+.env.local
+.env.server
+.user.yml
+
+# --- python ---
+.venv/
+env/
+__pycache__/
+*.py[cod]
+
+# --- dbt ---
+target/
+dbt_packages/
+logs/
