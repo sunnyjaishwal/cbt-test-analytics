@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---- dbt ----
+dbt_packages/
+logs/
+target/
+.user.yml
+# keep example env, ignore real one (already covered above, explicit for clarity)
+.env
+.env.local
+.env.server
+s3-aws-test.py
