@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: ingot_dim_geo
+    description: "Business-facing geography dimension with consolidated source-coverage label."
+    columns:
+      - name: geo_key
+        data_tests: [unique, not_null]
+      - name: geo_name
+        data_tests: [not_null]
+      - name: source_coverage
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["BOTH", "NIELSEN", "PRICE_TRACKER", "NONE"]
+
+  - name: ingot_geo_coverage_summary
+    description: "Coverage rollup by zone: geo counts by type and by source."
+    columns:
+      - name: geo_zone
+        data_tests: [unique, not_null]

@@ -80,9 +80,27 @@ Everything is driven by `.env` — no code changes:
 | Remote server | `DBT_TARGET=server`| `PG_HOST` = cloud host, `require` SSL |
 | Local Docker  | `DBT_TARGET=local` | `docker compose up -d`, `localhost` |
 
+## Data flow (current build)
+
+Source: `cbt_analytics.geo_master1` (Nigeria FMCG geography master, 22 rows).
+
+```
+cbt_analytics.geo_master1  (source)
+        │
+   ore.ore_geo_master      (view)   trim + blank→null, 1:1
+        │
+   alloy.alloy_geo          (view)   conform casing, Y/NULL→boolean flags,
+        │                            normalize regions, parse raw_spellings
+   ingot.ingot_dim_geo             (table)  clean geo dimension + source_coverage
+   ingot.ingot_geo_coverage_summary (table)  coverage rollup by zone
+```
+
+Run it: `set -a && . ./.env && set +a && .venv/Scripts/dbt.exe build`
+
 ## Status
 
 - ✅ Project scaffolding + medallion layers (ore / alloy / ingot)
 - ✅ Env-driven, configurable Postgres (local Docker **or** server)
 - ✅ Connected & verified against remote Postgres 17 (`dbt debug` passes)
-- ⬜ **Next:** source/data generation and how `ore` models read from Postgres
+- ✅ ore → alloy → ingot models built on `geo_master1`; **`dbt build` = 16/16 pass**
+- ⬜ **Next:** add products/e-commerce facts; docs site (`dbt docs`); scheduling

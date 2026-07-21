@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: cbt_analytics
+    description: "Raw operational tables loaded into Postgres."
+    database: defaultdb
+    schema: cbt_analytics
+    tables:
+      - name: geo_master1
+        description: >
+          Geography master for Nigeria FMCG analytics. One row per geography
+          (city / state / region) with source-coverage flags (Nielsen, Kantar,
+          price tracker) and raw name spellings. Source of truth for geo.
+        columns:
+          - name: geo_key
+            description: "Surrogate business key, e.g. GEO-001."
+            data_tests:
+              - unique
+              - not_null
